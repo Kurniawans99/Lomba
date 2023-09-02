@@ -10,29 +10,54 @@ public class Player : MonoBehaviour
     [SerializeField] private float speed;
     [SerializeField] private float rotateSpeed;
     [SerializeField] private float radius;
-    private float cooldownDash;
-    private float speedDash;
-    private float reduceSpeedDash;
-
+    private float cooldownDash = 2f;
+    private float speedDash = 2.5f;
+    private float dashTime = 0.2f;
+    private bool isDashing = false;
+    private bool canDash = true;
     private void Start()
     {
         gameInput.OnRun += GameInput_OnRun;
-        gameInput.OnDash += GameInput_Power;
+        gameInput.OnDash += GameInput_OnDash;
     }
 
-    private void GameInput_Power(object sender, EventArgs e)
+    private void GameInput_OnDash(object sender, EventArgs e)
     {
+        if(canDash)
+        {
+
+        StartCoroutine(Dash());
+        }
+    }
+
+    private IEnumerator Dash()
+    {
+        float originalSpeed = speed;
+        speed *= speedDash;
+        isDashing = true;
+        canDash = false;
+        yield return new WaitForSeconds(dashTime);
+        speed = originalSpeed;
+        isDashing = false;
+        yield return new WaitForSeconds(cooldownDash);
+        canDash = true;
+         
+
     }
 
     private void GameInput_OnRun(object sender, GameInput.OnRunEventArgs e)
     {
-        if (e.isRunning)
+        if (!isDashing)
         {
+          if (e.isRunning)
+            {
             speed = 10;
-        }
-        else
-        {
-            speed = 5;
+             }
+            else
+            {
+                speed = 5;
+            }
+
         }
     }
 

@@ -19,7 +19,7 @@ public class GameInput : MonoBehaviour
         playerInputActions.Player.Enable();
         playerInputActions.Player.Run.performed += PlayerRun_Performed;
         playerInputActions.Player.Run.canceled += PlayerRun_Canceled;
-        playerInputActions.Player.Power.started += PlayerDash_Started;
+        playerInputActions.Player.Dash.started += PlayerDash_Started;
     }
 
     private void PlayerDash_Started(InputAction.CallbackContext context)
