@@ -1,0 +1,17 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <Style src="project://database/Assets/UI/styleButton.uss?fileID=7433441132597879392&amp;guid=794f481e03b323c43939959d4b4b3b32&amp;type=3#styleButton" />
+    <ui:VisualElement style="flex-grow: 1;">
+        <ui:VisualElement name="container" style="flex-grow: 1; flex-basis: auto; width: 441px; flex-wrap: nowrap; flex-direction: column; justify-content: center; align-items: stretch; align-self: flex-start; margin-left: 2%;">
+            <ui:VisualElement name="title" style="flex-grow: 1; justify-content: flex-start; align-self: flex-start; align-items: flex-start; flex-direction: column; margin-bottom: 20%; height: 0;">
+                <ui:Label tabindex="-1" text="BENTENGAN" parse-escape-sequences="true" display-tooltip-when-elided="true" style="justify-content: center; align-items: flex-start; align-self: flex-start; -unity-font: url(&apos;project://database/Assets/font/trap/Trap-ExtraBold.otf?fileID=12800000&amp;guid=13b77b0e4e585db45988b70653c3f334&amp;type=3#Trap-ExtraBold&apos;); font-size: 90%; -unity-font-style: bold; color: rgb(255, 255, 255); -unity-text-outline-width: 2px; width: 560px; -unity-text-align: middle-left; text-overflow: clip; white-space: nowrap; -unity-text-outline-color: rgb(0, 0, 0);" />
+            </ui:VisualElement>
+            <ui:VisualElement name="menus" style="flex-grow: 1; flex-direction: column; align-items: center; flex-basis: 30%; flex-wrap: nowrap; position: absolute; justify-content: flex-start; align-self: flex-start; margin-left: 0; margin-bottom: 30%; overflow: hidden; visibility: visible; display: flex;">
+                <ui:Button text="PLAY" parse-escape-sequences="true" display-tooltip-when-elided="true" name="ButtonPlay" class="button" />
+                <ui:Button text="Tutorial" parse-escape-sequences="true" display-tooltip-when-elided="true" name="ButtonTutorial" class="button" />
+                <ui:Button text="Options" parse-escape-sequences="true" display-tooltip-when-elided="true" name="ButtonOption" class="button" />
+                <ui:Button text="Credits" parse-escape-sequences="true" display-tooltip-when-elided="true" name="ButtonCredit" class="button" />
+                <ui:Button text="EXIT" parse-escape-sequences="true" display-tooltip-when-elided="true" name="ButtonExit" class="button" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>
