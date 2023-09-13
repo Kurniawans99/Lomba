@@ -32,3 +32,9 @@
     transition-timing-function: ease;
     transition-delay: 0s;
 }
+
+.button:hover {
+    transition-property: scale;
+    transition-duration: 0.2s;
+    scale: 0.9 0.9;
+}
