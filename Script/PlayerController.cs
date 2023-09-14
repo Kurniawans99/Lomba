@@ -5,32 +5,32 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+    private PlayerManager playerManager;
     public event EventHandler OnPower;
     [SerializeField] private GameInput gameInput;
     [SerializeField] private float speed;
     [SerializeField] private float rotateSpeed;
     [SerializeField] private float radius;
-    private float cooldownDash = 2f;
+   /* private float cooldownDash = 2f;
     private float speedDash = 2.5f;
     private float dashTime = 0.2f;
     private bool isDashing = false;
-    private bool canDash = true;
+    private bool canDash = true;*/
     private void Start()
     {
         gameInput.OnRun += GameInput_OnRun;
-        gameInput.OnDash += GameInput_OnDash;
+        gameInput.OnTouch += GameInput_OnTouch;
+        playerManager = GetComponent<PlayerManager>();
     }
 
-    private void GameInput_OnDash(object sender, EventArgs e)
+    private void GameInput_OnTouch(object sender, EventArgs e)
     {
-        if(canDash)
-        {
-
-        StartCoroutine(Dash());
-        }
+        Debug.Log("Touch");
+        playerManager.TryTouching();
+        
     }
 
-    private IEnumerator Dash()
+/*    private IEnumerator Dash()
     {
         float originalSpeed = speed;
         speed *= speedDash;
@@ -41,24 +41,23 @@ public class PlayerController : MonoBehaviour
         isDashing = false;
         yield return new WaitForSeconds(cooldownDash);
         canDash = true;
-         
 
-    }
+
+    }*/
 
     private void GameInput_OnRun(object sender, GameInput.OnRunEventArgs e)
     {
-        if (!isDashing)
-        {
-          if (e.isRunning)
+      
+            if (e.isRunning)
             {
-            speed = 10;
-             }
+                speed = 10;
+            }
             else
             {
                 speed = 5;
             }
 
-        }
+        
     }
 
     private void Update()
@@ -117,6 +116,7 @@ public class PlayerController : MonoBehaviour
         else return false;
 
     }
+
 
 
 }

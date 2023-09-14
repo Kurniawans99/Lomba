@@ -10,7 +10,7 @@ public class characterController : MonoBehaviour
 
   /*  [SerializeField] private Animator targetAnimator;*/
 
-    private bool walk = false;
+  //  private bool walk = false;
     // Start is called before the first frame update
     void Start()
     {

@@ -24,9 +24,18 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Dash",
+                    "name": "Touch",
                     "type": "Button",
                     "id": "2b64dfc1-836b-47a1-ba2d-3218672fa0f3",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "switchChar",
+                    "type": "Button",
+                    "id": "7e5af976-5e19-4256-89d1-1a769f0efaea",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -41,7 +50,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "keyboad1",
-                    "action": "Dash",
+                    "action": "Touch",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -163,6 +172,17 @@
                     "processors": "",
                     "groups": "keyboad1",
                     "action": "Run",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "b72fd44e-90dc-4825-9299-617f0bd30772",
+                    "path": "<Keyboard>/f",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "keyboad1",
+                    "action": "switchChar",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

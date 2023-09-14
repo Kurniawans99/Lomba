@@ -11,6 +11,9 @@ public class GameManager : MonoBehaviour
     public int[] arrestedPlayersTeam;
     private int totalPlayerTeam = 4;
 
+    
+       
+
 
     // Start is called before the first frame update
     void Start()
@@ -19,15 +22,16 @@ public class GameManager : MonoBehaviour
         {
             player.gameStarted = true;
         }
+        arrestedPlayersTeam = new int[2];
+        arrestedPlayersTeam[0] = 0;
 
-        arrestedPlayersTeam[0]= 0;
-        arrestedPlayersTeam[1] = 1;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (arrestedPlayersTeam[0] == totalPlayerTeam)
+        
+/*        if (arrestedPlayersTeam[0] == totalPlayerTeam)
         {
             IncrementTeamPoints(0);
             StartNewRound();
@@ -38,7 +42,7 @@ public class GameManager : MonoBehaviour
             IncrementTeamPoints(1);
             StartNewRound();
             UpdatePointsDisplay();
-        }
+        }*/
     }
 
 

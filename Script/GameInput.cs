@@ -7,7 +7,7 @@ using UnityEngine.InputSystem;
 public class GameInput : MonoBehaviour
 {
     public event EventHandler<OnRunEventArgs> OnRun;
-    public event EventHandler OnDash;
+    public event EventHandler OnTouch;
     public class OnRunEventArgs : EventArgs
     {
         public bool isRunning;
@@ -19,12 +19,12 @@ public class GameInput : MonoBehaviour
         playerInputActions.Player.Enable();
         playerInputActions.Player.Run.performed += PlayerRun_Performed;
         playerInputActions.Player.Run.canceled += PlayerRun_Canceled;
-        playerInputActions.Player.Dash.started += PlayerDash_Started;
+        playerInputActions.Player.Touch.started += PlayerTouch_Started;
     }
 
-    private void PlayerDash_Started(InputAction.CallbackContext context)
+    private void PlayerTouch_Started(InputAction.CallbackContext context)
     {
-        OnDash?.Invoke(this, EventArgs.Empty);
+        OnTouch?.Invoke(this, EventArgs.Empty);
     }
 
     private void PlayerRun_Performed(InputAction.CallbackContext context)

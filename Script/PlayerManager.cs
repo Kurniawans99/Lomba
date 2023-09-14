@@ -44,7 +44,11 @@ public class PlayerManager : MonoBehaviour
 
         if (onControl)
         {
-            // Additional logic for being controlled
+
+            // Additional logic for being controlled 
+            //asign to bot to not controll 
+            //can be move using keyboard 1 or 2
+
         }
         // Check if the respective key is pressed
         /*if ((playerManager.idPlayer == 1 && Input.GetKeyDown(KeyCode.E)) ||
@@ -54,8 +58,10 @@ public class PlayerManager : MonoBehaviour
         }*/
     }
    
-    private void TryTouching()
+    public void TryTouching()
     {
+        //should be in playerController right?
+        //dont use Raycast just use hand collider
         // Raycast to detect if the player is touching another player
         RaycastHit hit;
         if (Physics.Raycast(transform.position, transform.forward, out hit, 1.5f))
@@ -67,7 +73,7 @@ public class PlayerManager : MonoBehaviour
                 // Notify the PlayerManager that this player is touching another player
                 otherPlayerManager.OnTouchingOtherPlayer(this);
             }
-        }//should be in playerController right?
+        }
 
     }
 
