@@ -10,22 +10,22 @@ public class PlayerManager : MonoBehaviour
     [SerializeField] private bool onControl = false;
     [SerializeField] private int team = 0;
     [SerializeField] private int idPlayer = 0;
-    private bool gameStarted = false;
-
+    public bool gameStarted = false;
+    private bool timePlaying = true;
     /*    [SerializeField] private CastleScript castle;*/
 
     private PlayerController playerController;
-/*    private GameManager gameManager;*/
+    private GameManager gameManager;
 
     void Start()
     {
        
         playerController = GetComponent<PlayerController>();
-   /*     gameManager = FindObjectOfType<GameManager>();*/
+        gameManager = FindObjectOfType<GameManager>();
     }
     void Update()
     {
-        if (gameStarted)
+        if (gameStarted && timePlaying)
         {
             playerTimer += Time.deltaTime;
 
@@ -53,7 +53,7 @@ public class PlayerManager : MonoBehaviour
             TryTouching();
         }*/
     }
-
+   
     private void TryTouching()
     {
         // Raycast to detect if the player is touching another player
@@ -67,7 +67,7 @@ public class PlayerManager : MonoBehaviour
                 // Notify the PlayerManager that this player is touching another player
                 otherPlayerManager.OnTouchingOtherPlayer(this);
             }
-        }
+        }//should be in playerController right?
 
     }
 
@@ -82,18 +82,42 @@ public class PlayerManager : MonoBehaviour
             ArrestPlayer();
         }
     }
+
+
+
+    /* EVENT PLAYER? SHOULD I MOVE FROM HERE */
+
+        public void SwitchControl(int newPlayerID)
+    {
+        /*        PlayerManager newPlayer = GameManager.GetPlayerByID(newPlayerID);
+
+                if (newPlayer != null && newPlayer.team == team && newPlayer.onControl)
+                {
+                    newPlayer.onControl = false;
+                    onControl = true;
+                    playerController.enabled = true;
+                    newPlayer.playerController.enabled = false;
+                }*/
+
+        // Logic for switching control between players on the same team
+    }
     public void ArrestPlayer()
     {
         onCatch = true;
-        playerTimer = 0f;
+        timePlaying = false;
         // Additional logic for being caught -> got stuck on save zone enemy
+
+        gameManager.arrestedPlayersTeam[team]++;
     }
+
+
     // Logic for releasing hand from the castle
-    public void ReleaseFromCastle()
+    public void ReleaseFromArrest()
     {
         onCatch = false;
-        playerTimer = 0f;
-        // Additional logic for releasing from the castle
+        timePlaying = true;
+        // Additional logic for releasing from the castle enemy
+        gameManager.arrestedPlayersTeam[team]--;
     }
 
     // Logic for entering the safe zone
@@ -103,17 +127,11 @@ public class PlayerManager : MonoBehaviour
         // Additional logic for entering the safe zone
     }
 
-    // Logic for switching control between players on the same team
-    public void SwitchControl(int newPlayerID)
+    public void TouchingCastleAlly()
     {
-/*        PlayerManager newPlayer = GameManager.GetPlayerByID(newPlayerID);
-
-        if (newPlayer != null && newPlayer.team == team && newPlayer.onControl)
-        {
-            newPlayer.onControl = false;
-            onControl = true;
-            playerController.enabled = true;
-            newPlayer.playerController.enabled = false;
-        }*/
+        playerTimer = 0f;
+        // Additional logic for entering the safe zone
     }
+
+
 }
