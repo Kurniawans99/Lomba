@@ -5,61 +5,105 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+  
     private PlayerManager playerManager;
     public event EventHandler OnPower;
     [SerializeField] private GameInput gameInput;
-    [SerializeField] private float speed;
+    [SerializeField] float defaultSpeed;
+    private float speed;
     [SerializeField] private float rotateSpeed;
     [SerializeField] private float radius;
-   /* private float cooldownDash = 2f;
-    private float speedDash = 2.5f;
-    private float dashTime = 0.2f;
-    private bool isDashing = false;
-    private bool canDash = true;*/
+    private SphereCollider sphereCollider;
+
+    private bool handrise = false;
+    /* private float cooldownDash = 2f;
+     private float speedDash = 2.5f;
+     private float dashTime = 0.2f;
+     private bool isDashing = false;
+     private bool canDash = true;*/
     private void Start()
     {
         gameInput.OnRun += GameInput_OnRun;
         gameInput.OnTouch += GameInput_OnTouch;
         playerManager = GetComponent<PlayerManager>();
+        speed = defaultSpeed;
+        sphereCollider = GetComponentInChildren<SphereCollider>();
+
     }
 
-    private void GameInput_OnTouch(object sender, EventArgs e)
+
+
+    //make sure use controller each char so theres no double catach on same time
+    void OnCollisionEnter(Collision colInfo)
     {
-        Debug.Log("Touch");
-        playerManager.TryTouching();
-        
+        if (colInfo.collider.tag == "char")
+        {
+            PlayerManager otherPlayerManager = colInfo.collider.GetComponentInParent<PlayerManager>();
+            
+            if (handrise && otherPlayerManager.team != playerManager.team) {
+                Debug.Log(otherPlayerManager.team);
+
+                // playerManager.OnTouchingOtherPlayer(otherPlayerManager);
+
+            }
+
+            if(handrise && otherPlayerManager.team == playerManager.team && otherPlayerManager.onCatch)
+            {
+                Debug.Log("releasePlayer");
+
+            }
+            //&& player pressing E -> check player.team (enemy) then timer then logic to arrest
+            //&& player pressing E -> check player.team (ally)then  then logic to release arrest
+
+        }
+        if (colInfo.collider.tag == "castle")
+        {
+            //&& player pressing E -> check castle.team then logic to set
+            Debug.Log("Castle");
+        }
     }
 
-/*    private IEnumerator Dash()
-    {
-        float originalSpeed = speed;
-        speed *= speedDash;
-        isDashing = true;
-        canDash = false;
-        yield return new WaitForSeconds(dashTime);
-        speed = originalSpeed;
-        isDashing = false;
-        yield return new WaitForSeconds(cooldownDash);
-        canDash = true;
+    /*    private IEnumerator Dash()
+        {
+            float originalSpeed = speed;
+            speed *= speedDash;
+            isDashing = true;
+            canDash = false;
+            yield return new WaitForSeconds(dashTime);
+            speed = originalSpeed;
+            isDashing = false;
+            yield return new WaitForSeconds(cooldownDash);
+            canDash = true;
 
 
-    }*/
+        }*/
 
     private void GameInput_OnRun(object sender, GameInput.OnRunEventArgs e)
     {
       
             if (e.isRunning)
             {
-                speed = 10;
+                speed = defaultSpeed * 2;
             }
             else
             {
-                speed = 5;
+                speed = defaultSpeed;
             }
 
         
     }
+    private void GameInput_OnTouch(object sender, GameInput.OnTouchEventArgs e)
+    {
 
+        if (e.isTouching)
+        {
+            handrise = true;
+        } else
+        {
+            handrise =false;
+        }
+
+    }
     private void Update()
     {
         HandleMovement();
@@ -107,13 +151,15 @@ public class PlayerController : MonoBehaviour
     }
     private bool CheckCollision(Vector3 moveDir)
     {
-        float playerHeight = 2f;
+/*        float playerHeight = 2f;
         float radiusCast = radius;
         if (Physics.CapsuleCast(transform.position, transform.position + Vector3.up * playerHeight, radiusCast, moveDir, speed * Time.deltaTime))
         {
             return true;
         }
         else return false;
+*/
+        return false;
 
     }
 

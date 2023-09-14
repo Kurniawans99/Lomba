@@ -5,10 +5,10 @@ using UnityEngine;
 public class PlayerManager : MonoBehaviour
 {
     [SerializeField] private float playerTimer = 0f;
-    [SerializeField] private bool onCatch = false;
+    public bool onCatch = false;
     [SerializeField] private bool onSaveZone = false;
     [SerializeField] private bool onControl = false;
-    [SerializeField] private int team = 0;
+    [SerializeField] public int team = 0;
     [SerializeField] private int idPlayer = 0;
     public bool gameStarted = false;
     private bool timePlaying = true;
@@ -58,34 +58,18 @@ public class PlayerManager : MonoBehaviour
         }*/
     }
    
-    public void TryTouching()
-    {
-        //should be in playerController right?
-        //dont use Raycast just use hand collider
-        // Raycast to detect if the player is touching another player
-        RaycastHit hit;
-        if (Physics.Raycast(transform.position, transform.forward, out hit, 1.5f))
-        {
-            PlayerManager otherPlayerManager = hit.collider.GetComponent<PlayerManager>();
-
-            if (otherPlayerManager != null && otherPlayerManager.team != this.team)
-            {
-                // Notify the PlayerManager that this player is touching another player
-                otherPlayerManager.OnTouchingOtherPlayer(this);
-            }
-        }
-
-    }
 
     public void OnTouchingOtherPlayer(PlayerManager otherPlayerManager)
     {
         if (playerTimer > otherPlayerManager.playerTimer)
         {
-            otherPlayerManager.ArrestPlayer();
+            Debug.Log("terpegang");
+            //  otherPlayerManager.ArrestPlayer(); 
         }
         else
         {
-            ArrestPlayer();
+             Debug.Log("dapet org");
+          //  ArrestPlayer();
         }
     }
 
@@ -113,7 +97,7 @@ public class PlayerManager : MonoBehaviour
         timePlaying = false;
         // Additional logic for being caught -> got stuck on save zone enemy
 
-        gameManager.arrestedPlayersTeam[team]++;
+        gameManager.Catching(team, true);
     }
 
 
@@ -123,7 +107,7 @@ public class PlayerManager : MonoBehaviour
         onCatch = false;
         timePlaying = true;
         // Additional logic for releasing from the castle enemy
-        gameManager.arrestedPlayersTeam[team]--;
+        gameManager.Catching(team, false);
     }
 
     // Logic for entering the safe zone

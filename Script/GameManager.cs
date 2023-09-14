@@ -8,7 +8,7 @@ public class GameManager : MonoBehaviour
     private int Round = 0;
     public List<PlayerManager> players = new List<PlayerManager>();
     private int[] teamPoints = new int[2];
-    public int[] arrestedPlayersTeam;
+    private int[] arrestedPlayersTeam;
     private int totalPlayerTeam = 4;
 
     
@@ -24,36 +24,55 @@ public class GameManager : MonoBehaviour
         }
         arrestedPlayersTeam = new int[2];
         arrestedPlayersTeam[0] = 0;
+        arrestedPlayersTeam[1] = 0;
+
 
     }
 
     // Update is called once per frame
     void Update()
     {
-        
-/*        if (arrestedPlayersTeam[0] == totalPlayerTeam)
+
+ 
+    }
+
+    public void Catching(int teamNumber, bool onCatch)
+    {
+        if (onCatch)
         {
-            IncrementTeamPoints(0);
+            arrestedPlayersTeam[(int)teamNumber]++ ;
+        }else if(onCatch == false) {
+
+            arrestedPlayersTeam[(int)teamNumber]--;
+        }
+
+        if (arrestedPlayersTeam[teamNumber] == totalPlayerTeam)
+        {
+            IncrementTeamPoints(teamNumber);
             StartNewRound();
             UpdatePointsDisplay();
         }
-        else if (arrestedPlayersTeam[1] == totalPlayerTeam)
+        else if (arrestedPlayersTeam[teamNumber] == totalPlayerTeam)
         {
-            IncrementTeamPoints(1);
+            IncrementTeamPoints(teamNumber);
             StartNewRound();
             UpdatePointsDisplay();
-        }*/
+        }
     }
-
 
     public void IncrementTeamPoints(int team)
     {
-        teamPoints[team - 1]++; // Assuming team IDs start from 1
+        teamPoints[team]++; 
     }
 
     public void StartNewRound()
     {
         // Reset player positions, timers, or any other relevant game state
+        foreach (PlayerManager player in players)
+        {
+            player.gameStarted = false;
+         
+        }
     }
 
     void UpdatePointsDisplay()
