@@ -1,12 +1,17 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Dynamic;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Animations.Rigging;
 using UnityEngine.EventSystems;
 
 public class PlayerController : MonoBehaviour
 {
+    [Serialize] public bool isControlled = false;
     private CastleManage castleManage;
+    private GameManager gameManager;
     private PlayerManager playerManager;
     public event EventHandler OnPower;
     [SerializeField] private GameInput gameInput;
@@ -18,6 +23,11 @@ public class PlayerController : MonoBehaviour
     Vector3 moveDir;
     private bool isRunning;
     private bool handrise = false;
+    private Collider previousCollider = null;
+
+
+
+
     /* private float cooldownDash = 2f;
      private float speedDash = 2.5f;
      private float dashTime = 0.2f;
@@ -30,50 +40,31 @@ public class PlayerController : MonoBehaviour
         playerManager = GetComponent<PlayerManager>();
         speed = defaultSpeed;
         sphereCollider = GetComponentInChildren<SphereCollider>();
+        gameManager = FindObjectOfType<GameManager>();
+
+
+
+
+
 
     }
+
 
 
 
     //make sure use controller each char so theres no double catach on same time
     void OnCollisionEnter(Collision colInfo)
     {
-        if (colInfo.collider.tag == "char")
+        previousCollider = colInfo.collider; // Store the current collider
+
+        // Rest of your code...
+    }
+
+    void OnCollisionExit(Collision colInfo)
+    {
+        if (colInfo.collider == previousCollider)
         {
-            PlayerManager otherPlayerManager = colInfo.collider.GetComponentInParent<PlayerManager>();
-
-            if (handrise && otherPlayerManager.team != playerManager.team && !otherPlayerManager.onSaveZone)
-            {
-                Debug.Log(otherPlayerManager.team);
-
-                // playerManager.OnTouchingOtherPlayer(otherPlayerManager);
-
-            }
-
-            if (handrise && otherPlayerManager.team == playerManager.team && otherPlayerManager.onCatch)
-            {
-                Debug.Log("releasePlayer");
-
-            }
-            //&& player pressing E -> check player.team (enemy) then timer then logic to arrest
-            //&& player pressing E -> check player.team (ally)then  then logic to release arrest
-
-        }
-        if (colInfo.collider.tag == "castle")
-        {
-            CastleManage whoCastle = colInfo.collider.gameObject.GetComponent<CastleManage>();
-
-            if (handrise && whoCastle.CastleTeam == playerManager.team)
-            {
-
-                Debug.Log("Reset TIme");
-            }
-            if (handrise && whoCastle.CastleTeam != playerManager.team)
-            {
-                Debug.Log("Win");
-            }
-            //&& player pressing E -> check castle.team then logic to set
-
+            previousCollider = null; // Reset the previous collider when it exits
         }
     }
 
@@ -98,7 +89,6 @@ public class PlayerController : MonoBehaviour
         if (isRunning)
         {
             speed = defaultSpeed * 2;
-            Debug.Log(speed);
         }
         else
         {
@@ -109,10 +99,13 @@ public class PlayerController : MonoBehaviour
     }
     private void GameInput_OnTouch(object sender, GameInput.OnTouchEventArgs e)
     {
-
+        
         if (e.isTouching)
         {
+           
+            
             handrise = true;
+            
         }
         else
         {
@@ -122,9 +115,60 @@ public class PlayerController : MonoBehaviour
     }
     private void Update()
     {
-        HandleMovement();
+        if (isControlled)
+        {
+            HandleMovement();
+            HandleTouch();
+
+        }
+
+
     }
 
+    private void HandleTouch()
+    {
+        if (handrise && previousCollider != null)
+        {
+            PlayerManager otherPlayerManager = previousCollider.GetComponentInParent<PlayerManager>();
+
+            if (otherPlayerManager != null)
+            {
+                if (otherPlayerManager.team != playerManager.team && !otherPlayerManager.onSaveZone)
+                {
+                    otherPlayerManager.OnTouchingOtherPlayer(playerManager);
+                    // Logic for touching enemy player
+                }
+
+                if (otherPlayerManager.team == playerManager.team && otherPlayerManager.onCatch)
+                {
+                    otherPlayerManager.ReleaseFromArrest();
+                        // Logic for releasing player
+                }
+            }
+            else
+            {
+                CastleManage whoCastle = previousCollider.gameObject.GetComponent<CastleManage>();
+
+                if (whoCastle != null)
+                {
+                    if (whoCastle.CastleTeam == playerManager.team)
+                    {
+                        playerManager.TouchingCastleAlly();
+                        // Logic for resetting time
+                    }
+                    else if(whoCastle.CastleTeam != playerManager.team)
+                    {
+                        
+                        Debug.Log("Win");
+                        gameManager.WinRound(playerManager.team);
+                        
+                        // Logic for winning
+                    }
+                }
+            }
+            
+        }
+    }
     private void HandleMovement()
     {
         Vector2 inputValue = gameInput.GetMovementVector();

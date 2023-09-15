@@ -86,15 +86,15 @@ public class PlayerManager : MonoBehaviour
     }
         public void OnTouchingOtherPlayer(PlayerManager otherPlayerManager)
     {
-        if (playerTimer > otherPlayerManager.playerTimer)
+        if (playerTimer > otherPlayerManager.playerTimer && !onCatch)
         {
             Debug.Log("terpegang");
-            //  otherPlayerManager.ArrestPlayer(); 
+            otherPlayerManager.ArrestPlayer(); 
         }
-        else
+        else if(playerTimer < otherPlayerManager.playerTimer && !onCatch)   
         {
              Debug.Log("dapet org");
-          //  ArrestPlayer();
+            ArrestPlayer();
         }
     }
 
@@ -136,11 +136,6 @@ public class PlayerManager : MonoBehaviour
     }
 
     // Logic for entering the safe zone
-    public void EnterSafeZone()
-    {
-        onSaveZone = true;
-        // Additional logic for entering the safe zone
-    }
 
     public void TouchingCastleAlly()
     {

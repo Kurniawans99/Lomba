@@ -7,7 +7,7 @@ public class GameManager : MonoBehaviour
 {
     private int Round = 0;
     public List<PlayerManager> players = new List<PlayerManager>();
-    private int[] teamPoints = new int[2];
+    private int[] teamPoints;
     private int[] arrestedPlayersTeam;
     private int totalPlayerTeam = 4;
 
@@ -25,6 +25,11 @@ public class GameManager : MonoBehaviour
         arrestedPlayersTeam = new int[2];
         arrestedPlayersTeam[0] = 0;
         arrestedPlayersTeam[1] = 0;
+        teamPoints = new int[2];
+        teamPoints[0] = 0;
+        teamPoints[1] = 0;
+
+
 
 
     }
@@ -60,12 +65,25 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void IncrementTeamPoints(int team)
+    private bool loadRound = false;
+    public void WinRound(int wutTeam)
     {
-        teamPoints[team]++; 
+        if (!loadRound)
+        {
+            loadRound = true;
+           IncrementTeamPoints(wutTeam);
+            StartNewRound();
+        }
+       
+    }
+    private void IncrementTeamPoints(int team)
+    {
+        
+        teamPoints[team]++;
+        Debug.Log(teamPoints[team]);
     }
 
-    public void StartNewRound()
+    private void StartNewRound()
     {
         // Reset player positions, timers, or any other relevant game state
         foreach (PlayerManager player in players)
@@ -73,10 +91,19 @@ public class GameManager : MonoBehaviour
             player.gameStarted = false;
          
         }
+        // reSpawn();
+        // GameBegin(); // wait until 3sec
+        loadRound = false;
     }
 
     void UpdatePointsDisplay()
     {
        // pointsDisplay.text = "Team 1: " + teamPoints[0] + " | Team 2: " + teamPoints[1];
     }
+
+    public void GamePause() { }
+    public void GameResume() { }
+    public void GameBackHome() { }
+
+    public void GameExit() { }
 }
