@@ -7,10 +7,15 @@ using UnityEngine.InputSystem;
 public class GameInput : MonoBehaviour
 {
     public event EventHandler<OnRunEventArgs> OnRun;
-    public event EventHandler OnDash;
+    public event EventHandler<OnTouchEventArgs> OnTouch;
     public class OnRunEventArgs : EventArgs
     {
         public bool isRunning;
+    }
+
+    public class OnTouchEventArgs : EventArgs
+    {
+        public bool isTouching;
     }
     private PlayerInputActions playerInputActions;
     void Awake()
@@ -19,12 +24,23 @@ public class GameInput : MonoBehaviour
         playerInputActions.Player.Enable();
         playerInputActions.Player.Run.performed += PlayerRun_Performed;
         playerInputActions.Player.Run.canceled += PlayerRun_Canceled;
-        playerInputActions.Player.Dash.started += PlayerDash_Started;
+        playerInputActions.Player.Touch.performed += PlayerTouch_Performed;
+        playerInputActions.Player.Touch.canceled += PlayerTouch_Canceled;
     }
 
-    private void PlayerDash_Started(InputAction.CallbackContext context)
+    private void PlayerTouch_Performed(InputAction.CallbackContext context)
     {
-        OnDash?.Invoke(this, EventArgs.Empty);
+        OnTouch?.Invoke(this, new OnTouchEventArgs
+        {
+            isTouching = context.performed
+        });
+    }
+    private void PlayerTouch_Canceled(InputAction.CallbackContext context)
+    {
+        OnTouch?.Invoke(this, new OnTouchEventArgs
+        {
+            isTouching = context.performed
+        });
     }
 
     private void PlayerRun_Performed(InputAction.CallbackContext context)
