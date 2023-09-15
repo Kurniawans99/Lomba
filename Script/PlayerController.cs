@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class PlayerController : MonoBehaviour
 {
@@ -14,7 +15,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float rotateSpeed;
     [SerializeField] private float radius;
     private SphereCollider sphereCollider;
-
+    Vector3 moveDir;
+    private bool isRunning;
     private bool handrise = false;
     /* private float cooldownDash = 2f;
      private float speedDash = 2.5f;
@@ -39,15 +41,16 @@ public class PlayerController : MonoBehaviour
         if (colInfo.collider.tag == "char")
         {
             PlayerManager otherPlayerManager = colInfo.collider.GetComponentInParent<PlayerManager>();
-            
-            if (handrise && otherPlayerManager.team != playerManager.team && !otherPlayerManager.onSaveZone) {
+
+            if (handrise && otherPlayerManager.team != playerManager.team && !otherPlayerManager.onSaveZone)
+            {
                 Debug.Log(otherPlayerManager.team);
 
                 // playerManager.OnTouchingOtherPlayer(otherPlayerManager);
 
             }
 
-            if(handrise && otherPlayerManager.team == playerManager.team && otherPlayerManager.onCatch)
+            if (handrise && otherPlayerManager.team == playerManager.team && otherPlayerManager.onCatch)
             {
                 Debug.Log("releasePlayer");
 
@@ -60,11 +63,12 @@ public class PlayerController : MonoBehaviour
         {
             CastleManage whoCastle = colInfo.collider.gameObject.GetComponent<CastleManage>();
 
-            if (handrise && whoCastle.CastleTeam == playerManager.team) {
+            if (handrise && whoCastle.CastleTeam == playerManager.team)
+            {
 
                 Debug.Log("Reset TIme");
             }
-            if(handrise && whoCastle.CastleTeam != playerManager.team)
+            if (handrise && whoCastle.CastleTeam != playerManager.team)
             {
                 Debug.Log("Win");
             }
@@ -90,17 +94,18 @@ public class PlayerController : MonoBehaviour
 
     private void GameInput_OnRun(object sender, GameInput.OnRunEventArgs e)
     {
-      
-            if (e.isRunning)
-            {
-                speed = defaultSpeed * 2;
-            }
-            else
-            {
-                speed = defaultSpeed;
-            }
+        isRunning = e.isRunning;
+        if (isRunning)
+        {
+            speed = defaultSpeed * 2;
+            Debug.Log(speed);
+        }
+        else
+        {
+            speed = defaultSpeed;
+        }
 
-        
+
     }
     private void GameInput_OnTouch(object sender, GameInput.OnTouchEventArgs e)
     {
@@ -108,9 +113,10 @@ public class PlayerController : MonoBehaviour
         if (e.isTouching)
         {
             handrise = true;
-        } else
+        }
+        else
         {
-            handrise =false;
+            handrise = false;
         }
 
     }
@@ -122,7 +128,7 @@ public class PlayerController : MonoBehaviour
     private void HandleMovement()
     {
         Vector2 inputValue = gameInput.GetMovementVector();
-        Vector3 moveDir = new Vector3(inputValue.x, 0, inputValue.y);
+        moveDir = new Vector3(inputValue.x, 0, inputValue.y);
         bool canMove = !CheckCollision(moveDir);
         if (!canMove)
         {
@@ -161,18 +167,26 @@ public class PlayerController : MonoBehaviour
     }
     private bool CheckCollision(Vector3 moveDir)
     {
-/*        float playerHeight = 2f;
-        float radiusCast = radius;
-        if (Physics.CapsuleCast(transform.position, transform.position + Vector3.up * playerHeight, radiusCast, moveDir, speed * Time.deltaTime))
-        {
-            return true;
-        }
-        else return false;
-*/
+        /*        float playerHeight = 2f;
+                float radiusCast = radius;
+                if (Physics.CapsuleCast(transform.position, transform.position + Vector3.up * playerHeight, radiusCast, moveDir, speed * Time.deltaTime))
+                {
+                    return true;
+                }
+                else return false;
+        */
         return false;
 
     }
 
+    public Vector3 IsMoving()
+    {
+        return moveDir;
+    }
 
+    public bool IsRunning()
+    {
+        return isRunning;
+    }
 
 }

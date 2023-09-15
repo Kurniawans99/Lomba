@@ -6,6 +6,7 @@ using UnityEngine.InputSystem;
 
 public class GameInput : MonoBehaviour
 {
+    
     public event EventHandler<OnRunEventArgs> OnRun;
     public event EventHandler<OnTouchEventArgs> OnTouch;
     public class OnRunEventArgs : EventArgs
