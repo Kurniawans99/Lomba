@@ -22,8 +22,10 @@ public class PlayerController : MonoBehaviour
     private SphereCollider sphereCollider;
     Vector3 moveDir;
     private bool isRunning;
-    private bool handrise = false;
+    public bool handrise = false;
     private Collider previousCollider = null;
+
+
 
 
 
@@ -86,7 +88,7 @@ public class PlayerController : MonoBehaviour
     private void GameInput_OnRun(object sender, GameInput.OnRunEventArgs e)
     {
         isRunning = e.isRunning;
-        if (isRunning)
+        if (isRunning && isControlled)
         {
             speed = defaultSpeed * 2;
         }
@@ -100,7 +102,7 @@ public class PlayerController : MonoBehaviour
     private void GameInput_OnTouch(object sender, GameInput.OnTouchEventArgs e)
     {
         
-        if (e.isTouching)
+        if (e.isTouching && isControlled)
         {
            
             
@@ -115,7 +117,7 @@ public class PlayerController : MonoBehaviour
     }
     private void Update()
     {
-        if (isControlled)
+        if (isControlled && !playerManager.onCatch)
         {
             HandleMovement();
             HandleTouch();

@@ -14,14 +14,21 @@ public class PlayerManager : MonoBehaviour
     private bool timePlaying = true;
     /*    [SerializeField] private CastleScript castle;*/
 
+    public Vector3 intialSpawnPos;
     private PlayerController playerController;
     private GameManager gameManager;
+    private SpawnPoint spawnPoint;
 
     void Start()
     {
        
         playerController = GetComponent<PlayerController>();
         gameManager = FindObjectOfType<GameManager>();
+        SpawnPoint spawnPoint = FindObjectOfType<SpawnPoint>();
+        intialSpawnPos = transform.position;
+
+
+
     }
     void Update()
     {
@@ -120,14 +127,23 @@ public class PlayerManager : MonoBehaviour
     {
         onCatch = true;
         timePlaying = false;
-        // Additional logic for being caught -> got stuck on save zone enemy
 
-        gameManager.Catching(team, true);
+        foreach (SpawnPoint spawnPoint in gameManager.spawnPoints)
+        {
+            if (spawnPoint.teamSpawn != team)
+            {
+                // Move the player to the spawn point
+                transform.position = spawnPoint.transform.position;
+                // Additional logic for being caught -> got stuck on save zone enemy
+
+                gameManager.Catching(team, true);
+                break; // Exit the loop once a suitable spawn point is found
+            }
+        }
     }
 
-
-    // Logic for releasing hand from the castle
-    public void ReleaseFromArrest()
+        // Logic for releasing hand from the castle
+        public void ReleaseFromArrest()
     {
         onCatch = false;
         timePlaying = true;

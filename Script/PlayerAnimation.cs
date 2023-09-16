@@ -11,10 +11,20 @@ public class PlayerAnimation : MonoBehaviour
     private const string RUN = "Run";
     private Animator animator;
     private float acceleration = 0.1f;
-    public Transform Rig;
+    string tagName = "rigHand";
+
+    public GameObject objectFind;
+    private Rig rig;
+
+    private void Start()
+    {
+        rig = GetComponentInChildren<Rig>();
+        player = GetComponentInParent<PlayerController>();
+      
+    }
 
 
-  
+
     private void Awake()
     {
         animator = GetComponent<Animator>();
@@ -22,7 +32,16 @@ public class PlayerAnimation : MonoBehaviour
 
     private void Update()
     {
-       
+
+        if (player.handrise)
+        {
+            rig.weight = 1;
+        }
+        else
+        {
+            rig.weight = 0;
+
+        }
 
         if (player.IsMoving() != Vector3.zero)
         {
