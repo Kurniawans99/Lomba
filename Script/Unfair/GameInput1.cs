@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class GameInput2 : MonoBehaviour
+public class GameInput1 : MonoBehaviour
 {
     
     public event EventHandler<OnRunEventArgs> OnRun;
@@ -31,12 +31,12 @@ public class GameInput2 : MonoBehaviour
            */
 
         playerInputActions = new PlayerInputActions();
-        playerInputActions.Player2.Enable();
+        playerInputActions.Player1.Enable();
         
-        playerInputActions.Player2.Run.performed += PlayerRun_Performed;
-        playerInputActions.Player2.Run.canceled += PlayerRun_Canceled;
-        playerInputActions.Player2.Touch.performed += PlayerTouch_Performed;
-        playerInputActions.Player2.Touch.canceled += PlayerTouch_Canceled;
+        playerInputActions.Player1.Run.performed += PlayerRun_Performed;
+        playerInputActions.Player1.Run.canceled += PlayerRun_Canceled;
+        playerInputActions.Player1.Touch.performed += PlayerTouch_Performed;
+        playerInputActions.Player1.Touch.canceled += PlayerTouch_Canceled;
     }
 
     private void PlayerTouch_Performed(InputAction.CallbackContext context)
@@ -72,7 +72,7 @@ public class GameInput2 : MonoBehaviour
     public Vector2 GetMovementVector()
     {
         Vector2 inputValue = Vector2.zero;
-        inputValue = playerInputActions.Player2.Move.ReadValue<Vector2>();
+        inputValue = playerInputActions.Player1.Move.ReadValue<Vector2>();
         return inputValue.normalized;
     }
 }

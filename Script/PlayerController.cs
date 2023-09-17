@@ -6,15 +6,16 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Animations.Rigging;
 using UnityEngine.EventSystems;
+using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
 {
     [Serialize] public bool isControlled = false;
-    private CastleManage castleManage;
     private GameManager gameManager;
     private PlayerManager playerManager;
-    public event EventHandler OnPower;
-    [SerializeField] private GameInput gameInput;
+    [SerializeField] private GameInput1 gameInput;
+    [SerializeField] private GameInput2 gameInput2;
+
     [SerializeField] float defaultSpeed;
     private float speed;
     [SerializeField] private float rotateSpeed;
@@ -26,19 +27,18 @@ public class PlayerController : MonoBehaviour
     private Collider previousCollider = null;
 
 
-
-
-
-
-    /* private float cooldownDash = 2f;
-     private float speedDash = 2.5f;
-     private float dashTime = 0.2f;
-     private bool isDashing = false;
-     private bool canDash = true;*/
     private void Start()
     {
+
         gameInput.OnRun += GameInput_OnRun;
         gameInput.OnTouch += GameInput_OnTouch;
+
+        gameInput2.OnRun += GameInput_OnRun2;
+            gameInput2.OnTouch += GameInput_OnTouch2;
+      
+    
+
+       
         playerManager = GetComponent<PlayerManager>();
         speed = defaultSpeed;
         sphereCollider = GetComponentInChildren<SphereCollider>();
@@ -85,7 +85,7 @@ public class PlayerController : MonoBehaviour
 
         }*/
 
-    private void GameInput_OnRun(object sender, GameInput.OnRunEventArgs e)
+    private void GameInput_OnRun(object sender, GameInput1.OnRunEventArgs e)
     {
         isRunning = e.isRunning;
         if (isRunning && isControlled)
@@ -99,15 +99,46 @@ public class PlayerController : MonoBehaviour
 
 
     }
-    private void GameInput_OnTouch(object sender, GameInput.OnTouchEventArgs e)
+    private void GameInput_OnTouch(object sender, GameInput1.OnTouchEventArgs e)
     {
-        
+
         if (e.isTouching && isControlled)
         {
-           
-            
+
+
             handrise = true;
-            
+
+        }
+        else
+        {
+            handrise = false;
+        }
+
+    }
+
+    private void GameInput_OnRun2(object sender, GameInput2.OnRunEventArgs e)
+    {
+        isRunning = e.isRunning;
+        if (isRunning && isControlled)
+        {
+            speed = defaultSpeed * 2;
+        }
+        else
+        {
+            speed = defaultSpeed;
+        }
+
+
+    }
+    private void GameInput_OnTouch2(object sender, GameInput2.OnTouchEventArgs e)
+    {
+
+        if (e.isTouching && isControlled)
+        {
+
+
+            handrise = true;
+
         }
         else
         {
@@ -173,21 +204,43 @@ public class PlayerController : MonoBehaviour
     }
     private void HandleMovement()
     {
-        Vector2 inputValue = gameInput.GetMovementVector();
-        moveDir = new Vector3(inputValue.x, 0, inputValue.y);
-        bool canMove = !CheckCollision(moveDir);
-        if (!canMove)
+        if(playerManager.team == 1)
         {
-            moveDir = CheckAxis(moveDir);
-            canMove = !CheckCollision(moveDir);
-        }
-        if (canMove)
-        {
+            Vector2 inputValue = gameInput2.GetMovementVector();
+            moveDir = new Vector3(inputValue.x, 0, inputValue.y);
+            bool canMove = !CheckCollision(moveDir);
+            if (!canMove)
+            {
+                moveDir = CheckAxis(moveDir);
+                canMove = !CheckCollision(moveDir);
+            }
+            if (canMove)
+            {
 
-            transform.position += moveDir * speed * Time.deltaTime;
-        }
+                transform.position += moveDir * speed * Time.deltaTime;
+            }
 
-        transform.forward = Vector3.Slerp(transform.forward, moveDir, rotateSpeed * Time.deltaTime);
+            transform.forward = Vector3.Slerp(transform.forward, moveDir, rotateSpeed * Time.deltaTime);
+        }else if(playerManager.team == 0) {
+
+            Vector2 inputValue = gameInput.GetMovementVector();
+            moveDir = new Vector3(inputValue.x, 0, inputValue.y);
+            bool canMove = !CheckCollision(moveDir);
+            if (!canMove)
+            {
+                moveDir = CheckAxis(moveDir);
+                canMove = !CheckCollision(moveDir);
+            }
+            if (canMove)
+            {
+
+                transform.position += moveDir * speed * Time.deltaTime;
+            }
+
+            transform.forward = Vector3.Slerp(transform.forward, moveDir, rotateSpeed * Time.deltaTime);
+
+        }
+        
     }
 
     private Vector3 CheckAxis(Vector3 moveDir)
