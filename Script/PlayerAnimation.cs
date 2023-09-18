@@ -32,6 +32,10 @@ public class PlayerAnimation : MonoBehaviour
 
     private void Update()
     {
+        float speed = player.IsMoving() != Vector3.zero ? (player.IsRunning() ? 1.0f : 0.5f) : 0f;
+
+
+        animator.SetFloat("Speed", speed);
 
         if (player.handrise)
         {
@@ -43,24 +47,6 @@ public class PlayerAnimation : MonoBehaviour
 
         }
 
-        if (player.IsMoving() != Vector3.zero)
-        {
-            if (player.IsRunning())
-            {
-                animator.SetBool(WALK, false);
-                animator.SetBool(RUN, true);
-            }
-            else
-            {
-                animator.SetBool(WALK, true);
-                animator.SetBool(RUN, false);
-            }
-        }
-        else
-        {
-            animator.SetBool(WALK, false);
-            animator.SetBool(RUN, false);
-        }
 
        
 
