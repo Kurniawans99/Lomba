@@ -5,66 +5,100 @@ using UnityEngine.AI;
 
 public enum BotState
 {
-    RunTheTarget,
+    AttackTarget,
     DefendTheBase,
     RunFromTarget,
     AttackBase,
-    AvoidTargetOutsideBase
+    AvoidTarget,
+    releaseFriend,
+
+
 }
 public class BotDummy : MonoBehaviour
 {
     public BotState currentState;
-    public NavMeshAgent agent;
-    public Animator animator;
+    private NavMeshAgent agent;
+    private Animator animator;
     private PlayerController playerController;
 
     public Transform target;
-    private void Awake()
+    private void Start()
     {
-        animator = GetComponent<Animator>();
+        animator = GetComponentInChildren<Animator>();
         agent = GetComponent<NavMeshAgent>();
         playerController = GetComponent<PlayerController>();
     }
 
     void Update()
     {
-        if (!playerController.isControlled)
+        if(target != null)
         {
-            switch (currentState)
+            if (!playerController.isControlled && !playerController.CheckOnCatcth()) 
             {
-                case BotState.RunTheTarget:
-                    // Logic to move towards the target with higher 
-                    break;
-                case BotState.DefendTheBase:
-                    // Logic to defend the base
-                    break;
-                case BotState.RunFromTarget:
-                    // Logic to run from the target with lower time
-                    break;
-                    // Add other cases for different states...
+                agent.enabled = true;
+                switch (currentState)
+                {
+                    case BotState.AttackTarget:
+                        UpdatePath();
+                        simulateTouch();
+                        break;
+                    case BotState.DefendTheBase:
+                        UpdatePath();
+                        // Logic to defend the base
+                        break;
+                    case BotState.RunFromTarget:
+                        // Logic to run from the target with lower time
+                        break;
+                    case BotState.AttackBase:
+                        // Logic to attack the enemy base
+                        break;
+                    case BotState.AvoidTarget:
+                        // Logic to avoid the target
+                        break;
+                    case BotState.releaseFriend:
+                        // Logic to release a friend
+                        break;
+                    default:
+                        Debug.LogWarning("Unhandled BotState: " + currentState);
+                        break;
+                }
+            }
+            else
+            {
+                //or make function to stop AI
+                agent.enabled = false;
+                agent.speed = 0;
+                agent.destination = transform.position;
             }
         }
+      
 
         
     }
 
-    private void getTargetPos(int who)
+    
+
+    public float pathUpdateDelay = 0.2f;
+    private void UpdatePath()
     {
-       /* 1. Enemy Base
-        2. Ally Base
-        3. Enmy human*/
-       if (who == 1)
+        if (target != null)
         {
+            agent.SetDestination(target.position);
 
+            animator.SetFloat("Speed", agent.desiredVelocity.sqrMagnitude);
+            
         }
-        else if (who == 2)
-        {
-
-        }
-        else if(who == 3)
-        {
-
-        }
+        
     }
 
+    
+    
+    void simulateTouch()
+    {
+        bool onRange = Vector3.Distance(transform.position, target.position )<= 3;
+        if (onRange)
+        {
+            //simulate Touch
+        }
+    }
 }

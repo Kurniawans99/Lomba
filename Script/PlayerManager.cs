@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PlayerManager : MonoBehaviour
 {
-    [SerializeField] private float playerTimer = 0f;
+    [SerializeField] public float playerTimer = 0f;
     public bool onCatch = false;
     [SerializeField] public bool onSaveZone = false;
     [SerializeField] private bool onControl = false;
@@ -19,9 +19,10 @@ public class PlayerManager : MonoBehaviour
     private GameManager gameManager;
     private SpawnPoint spawnPoint;
 
+    public GameObject ball;
     void Start()
     {
-       
+        
         playerController = GetComponent<PlayerController>();
         gameManager = FindObjectOfType<GameManager>();
         SpawnPoint spawnPoint = FindObjectOfType<SpawnPoint>();
@@ -36,33 +37,18 @@ public class PlayerManager : MonoBehaviour
         {
             playerTimer += Time.deltaTime;
 
-            // ... (other logic)
-        }
-        // Logic for timer, catching, safe zone, etc.
-        if (onCatch)
-        {
-            // Additional logic for being caught
+
+           /* float normalizedTime = Mathf.Clamp01(playerTimer / 60f);
+
+            // Interpolate between startColor and endColor
+            Color lerpedColor = Color.Lerp(Color.green, Color.red, normalizedTime);
+
+            // Apply the color to the ball's material
+            Renderer renderer = ball.GetComponent<Renderer>();
+            renderer.material.color = lerpedColor;
+            // ... (other logic)*/
         }
 
-        if (onSaveZone)
-        {
-            // Additional logic for being in the safe zone
-        }
-
-        if (onControl)
-        {
-
-            // Additional logic for being controlled 
-            //asign to bot to not controll 
-            //can be move using keyboard 1 or 2
-
-        }
-        // Check if the respective key is pressed
-        /*if ((playerManager.idPlayer == 1 && Input.GetKeyDown(KeyCode.E)) ||
-            (playerManager.idPlayer == 2 && Input.GetKeyDown(KeyCode.I)))
-        {
-            TryTouching();
-        }*/
     }
 
     void OnTriggerEnter(Collider other)
@@ -93,12 +79,12 @@ public class PlayerManager : MonoBehaviour
     }
         public void OnTouchingOtherPlayer(PlayerManager otherPlayerManager)
     {
-        if (playerTimer > otherPlayerManager.playerTimer && !onCatch)
+        if (playerTimer < otherPlayerManager.playerTimer && !onCatch)
         {
             Debug.Log("terpegang");
             otherPlayerManager.ArrestPlayer(); 
         }
-        else if(playerTimer < otherPlayerManager.playerTimer && !onCatch)   
+        else if(playerTimer > otherPlayerManager.playerTimer && !onCatch)   
         {
              Debug.Log("dapet org");
             ArrestPlayer();

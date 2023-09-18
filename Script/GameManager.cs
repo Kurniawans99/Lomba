@@ -134,8 +134,7 @@ public class GameManager : MonoBehaviour
             playerManager.onCatch = false;
             playerManager.gameStarted = true;
             // Other logic for respawning the player
-        
-            
+
         }
         arrestedPlayersTeam[0] = 0;
         arrestedPlayersTeam[1] = 0;

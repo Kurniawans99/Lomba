@@ -32,20 +32,23 @@ public class PlayerAnimation : MonoBehaviour
 
     private void Update()
     {
-        float speed = player.IsMoving() != Vector3.zero ? (player.IsRunning() ? 1.0f : 0.5f) : 0f;
-
-
-        animator.SetFloat("Speed", speed);
-
-        if (player.handrise)
+        if (player.isControlled)
         {
-            rig.weight = 1;
-        }
-        else
-        {
-            rig.weight = 0;
+            float speed = player.IsMoving() != Vector3.zero ? (player.IsRunning() ? 1.0f : 0.5f) : 0f;
 
+            animator.SetFloat("Speed", speed);
+
+            if (player.handrise)
+            {
+                rig.weight = 1;
+            }
+            else
+            {
+                rig.weight = 0;
+
+            }
         }
+     
 
 
        

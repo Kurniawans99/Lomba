@@ -34,7 +34,7 @@ public class PlayerController : MonoBehaviour
         gameInput.OnTouch += GameInput_OnTouch;
 
         gameInput2.OnRun += GameInput_OnRun2;
-            gameInput2.OnTouch += GameInput_OnTouch2;
+        gameInput2.OnTouch += GameInput_OnTouch2;
       
     
 
@@ -102,7 +102,7 @@ public class PlayerController : MonoBehaviour
     private void GameInput_OnTouch(object sender, GameInput1.OnTouchEventArgs e)
     {
 
-        if (e.isTouching && isControlled)
+        if (e.isTouching && isControlled && playerManager.team == 0)
         {
 
 
@@ -133,7 +133,7 @@ public class PlayerController : MonoBehaviour
     private void GameInput_OnTouch2(object sender, GameInput2.OnTouchEventArgs e)
     {
 
-        if (e.isTouching && isControlled)
+        if (e.isTouching && isControlled && playerManager.team == 1)
         {
 
 
@@ -286,6 +286,15 @@ public class PlayerController : MonoBehaviour
     public bool IsRunning()
     {
         return isRunning;
+    }
+
+    public bool CheckOnCatcth()
+    {
+        return playerManager.onCatch;
+    }
+    public int checkTeamPlayer(){
+
+        return playerManager.team;
     }
 
 }
