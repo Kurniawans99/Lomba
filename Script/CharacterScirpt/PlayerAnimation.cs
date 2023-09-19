@@ -14,7 +14,7 @@ public class PlayerAnimation : MonoBehaviour
     string tagName = "rigHand";
 
     public GameObject objectFind;
-    private Rig rig;
+    public Rig rig;
 
     private void Start()
     {
@@ -48,6 +48,8 @@ public class PlayerAnimation : MonoBehaviour
 
             }
         }
+
+       
      
 
 

@@ -11,9 +11,10 @@ public class GameManager : MonoBehaviour
     private int[] teamPoints;
     private int[] arrestedPlayersTeam;
     private int totalPlayerTeam = 4;
+    public Transform[] points;
 
-    
-       
+
+
 
 
     // Start is called before the first frame update
@@ -39,7 +40,7 @@ public class GameManager : MonoBehaviour
     void Update()
     {
 
- 
+        
     }
 
     public void Catching(int teamNumber, bool onCatch)

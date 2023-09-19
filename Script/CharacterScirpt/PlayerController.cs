@@ -153,6 +153,10 @@ public class PlayerController : MonoBehaviour
             HandleTouch();
 
         }
+        else if(!isControlled && !playerManager.onCatch)
+        {
+            HandleTouch();
+        }
 
 
     }

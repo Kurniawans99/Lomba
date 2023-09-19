@@ -20,6 +20,8 @@ public class PlayerManager : MonoBehaviour
     private SpawnPoint spawnPoint;
     public BotDummy botDummy;
 
+    public bool gotPlayer;
+
     public GameObject ball;
     void Start()
     {
@@ -83,11 +85,13 @@ public class PlayerManager : MonoBehaviour
     {
         if (playerTimer < otherPlayerManager.playerTimer && !onCatch)
         {
+            gotPlayer = true;
             Debug.Log("terpegang");
             otherPlayerManager.ArrestPlayer(); 
         }
         else if(playerTimer > otherPlayerManager.playerTimer && !onCatch)   
         {
+            gotPlayer= true;
              Debug.Log("dapet org");
             ArrestPlayer();
         }
@@ -130,8 +134,8 @@ public class PlayerManager : MonoBehaviour
         }
     }
 
-        // Logic for releasing hand from the castle
-        public void ReleaseFromArrest()
+    // Logic for releasing hand from the castle
+    public void ReleaseFromArrest()
     {
         onCatch = false;
         timePlaying = true;
@@ -139,7 +143,7 @@ public class PlayerManager : MonoBehaviour
         gameManager.Catching(team, false);
         if (!playerController.isControlled)
         {
-            botDummy.currentState = BotState.botRelease;
+            botDummy.currentState = BotState.BackToBase;
         }
     }
 

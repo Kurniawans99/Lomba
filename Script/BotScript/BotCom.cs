@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Security;
@@ -14,31 +15,31 @@ public class team
 public class BotCom : MonoBehaviour
 {
     private GameManager gameManager;
-    private int OnBaseBlue, OnBaseRed;
+    public int OnBaseBlue, OnBaseRed;
     team blueTeam = new team();
     team redTeam = new team();
     private PlayerController playerController;
     private BotDummy botDummy;
     public Transform target;
-
+    public bool isReady;
 
     // Start is called before the first frame update
     void Start()
     {
         GameObject Blue = GameObject.Find("Blue");
         GameObject Red = GameObject.Find("Red");
-        SaveZoneManage saveZoneBlue = Blue.GetComponentInChildren<SaveZoneManage>();
-        SaveZoneManage saveZoneRed = Red.GetComponentInChildren<SaveZoneManage>();
+        
 
         
 
         gameManager = FindObjectOfType<GameManager>();
-        //initialBotStrategy();
+        initialBotStrategy();
 
     }
 
     void initialBotStrategy()
     {
+
         blueTeam.idPlayerOnAttackEnemy = 2;
         blueTeam.idPlayerOnDeffend = 3;
         blueTeam.idPlayerOnAttackBase = 4;
@@ -49,7 +50,7 @@ public class BotCom : MonoBehaviour
 
     }
 
-    void switchCharTeam(int currentId,int newIdPlayer, int team)
+    public void switchCharTeam(int currentId,int newIdPlayer, int team)
     {
 
         // change what team to current id 
@@ -57,97 +58,58 @@ public class BotCom : MonoBehaviour
         // current id will play the old navmesh
     }
     
-    void StateAI(PlayerManager player,BotState state,int numTeam,Transform target)
+
+  /*  void StateAI(PlayerManager player,BotState state,int numTeam,Transform target)
     {
         player.botDummy.currentState = state;
         player.botDummy.target = target;
         // if player == idPlayer(state) && !onCatch
         //do the target & excute change it
     }
-
+*/
     void FixedUpdate()
     {
+
         OnBaseBlue = 0;
         OnBaseRed = 0;
         foreach (PlayerManager playerManager in gameManager.players)
-           {
-            
-            if (playerManager.team==0 && playerManager.onSaveZone) {
+        {
+
+            if (playerManager.team == 0 && playerManager.onSaveZone)
+            {
                 OnBaseBlue++;
             }
-            if (playerManager.team==1 && playerManager.onSaveZone)
+            if (playerManager.team == 1 && playerManager.onSaveZone)
             {
                 OnBaseRed++;
             }
-                
-        }
-        foreach (PlayerManager playerManager in gameManager.players)
-        {
-            if (!playerManager.botDummy.onAvoidingPlayer)
-            {
-                if (OnBaseBlue == 0)
-                {
-                    if (redTeam.idPlayerOnAttackBase == playerManager.idPlayer && playerManager.team == 1)
-                    {
-                        StateAI(playerManager, BotState.AttackBase, playerManager.team, GetTargetPos(2, playerManager));
-                    }
-                    //ally defend
-                    //enmy atack
-                }
-                else if (OnBaseBlue >= 2)
-                {
-                    // attack blue base said red
-                    if (redTeam.idPlayerOnAttackBase == playerManager.idPlayer && playerManager.team == 1)
-                    {
-                        StateAI(playerManager, BotState.AttackBase, playerManager.team, playerManager.transform);
-                    }
-                }
-
-                if (OnBaseRed == 0)
-                {
-                    if (blueTeam.idPlayerOnAttackBase == playerManager.idPlayer && playerManager.team == 0)
-                    {
-                        StateAI(playerManager, BotState.AttackBase, playerManager.team, GetTargetPos(2, playerManager));
-                    }
-                }
-                else if (OnBaseRed >= 2)
-                {
-                    if (blueTeam.idPlayerOnAttackBase == playerManager.idPlayer && playerManager.team == 0)
-                    {
-                        StateAI(playerManager, BotState.AttackBase, 0, playerManager.transform);
-                    }
-                }
-            }
-                
-
-                //check player Time attack Player --> wanna change to raycast?
-                /*
-                if (!playerManager.onSaveZone && !playerManager.onCatch)
-                {
-                    if (playerManager.playerTimer < 3f)
-                    {
-
-                        //player new
-                        //beware!!
-                    }
-                    else if (playerManager.playerTimer < 10f)
-                    {
-                        //old player
-                        // get that On target
-                    }
-
-                }
-                */
-            
-            
 
         }
 
-  
+
+
+
     }
 
+    //check player Time attack Player --> wanna change to raycast?
+    /*
+    if (!playerManager.onSaveZone && !playerManager.onCatch)
+    {
+        if (playerManager.playerTimer < 3f)
+        {
 
-    private Transform GetTargetPos(int who, PlayerManager players)
+            //player new
+            //beware!!
+        }
+        else if (playerManager.playerTimer < 10f)
+        {
+            //old player
+            // get that On target
+        }
+
+    }
+    */
+    public Transform GetTargetPos(int who, PlayerManager players)
     {
         /* 1. Enemy Base
          2. Ally Base
@@ -189,7 +151,7 @@ public class BotCom : MonoBehaviour
         }
         else if (who == 4)
         {
-            //find pos self with idTarget trasnfrom.position
+            return players.transform;
         }
         return transform;
     }
