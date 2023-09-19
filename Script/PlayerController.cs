@@ -26,7 +26,6 @@ public class PlayerController : MonoBehaviour
     public bool handrise = false;
     private Collider previousCollider = null;
 
-
     private void Start()
     {
 

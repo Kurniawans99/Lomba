@@ -9,7 +9,7 @@ public class PlayerManager : MonoBehaviour
     [SerializeField] public bool onSaveZone = false;
     [SerializeField] private bool onControl = false;
     [SerializeField] public int team = 0;
-    [SerializeField] private int idPlayer = 0;
+    [SerializeField] public int idPlayer = 0;
     public bool gameStarted = false;
     private bool timePlaying = true;
     /*    [SerializeField] private CastleScript castle;*/
@@ -18,11 +18,13 @@ public class PlayerManager : MonoBehaviour
     private PlayerController playerController;
     private GameManager gameManager;
     private SpawnPoint spawnPoint;
+    public BotDummy botDummy;
 
     public GameObject ball;
     void Start()
     {
-        
+        botDummy = GetComponent<BotDummy>();
+
         playerController = GetComponent<PlayerController>();
         gameManager = FindObjectOfType<GameManager>();
         SpawnPoint spawnPoint = FindObjectOfType<SpawnPoint>();
@@ -135,6 +137,10 @@ public class PlayerManager : MonoBehaviour
         timePlaying = true;
         // Additional logic for releasing from the castle enemy
         gameManager.Catching(team, false);
+        if (!playerController.isControlled)
+        {
+            botDummy.currentState = BotState.botRelease;
+        }
     }
 
     // Logic for entering the safe zone

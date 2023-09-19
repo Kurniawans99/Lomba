@@ -18,6 +18,7 @@ public class BotCom : MonoBehaviour
     team blueTeam = new team();
     team redTeam = new team();
     private PlayerController playerController;
+    private BotDummy botDummy;
     public Transform target;
 
 
@@ -32,7 +33,7 @@ public class BotCom : MonoBehaviour
         
 
         gameManager = FindObjectOfType<GameManager>();
-        initialBotStrategy();
+        //initialBotStrategy();
 
     }
 
@@ -48,63 +49,105 @@ public class BotCom : MonoBehaviour
 
     }
 
-    void switchCharTeam(int team,int idPlayer)
+    void switchCharTeam(int currentId,int newIdPlayer, int team)
     {
+
         // change what team to current id 
+        // newIdPlayer.botDummy is must be stopped from AINav
+        // current id will play the old navmesh
     }
     
-    void StateAI(int state,int numTeam,int target)
+    void StateAI(PlayerManager player,BotState state,int numTeam,Transform target)
     {
+        player.botDummy.currentState = state;
+        player.botDummy.target = target;
         // if player == idPlayer(state) && !onCatch
         //do the target & excute change it
     }
+
     void FixedUpdate()
     {
-        if (OnBaseBlue == 0)
-        {
-            //ally defend
-            //enmy atack
+        OnBaseBlue = 0;
+        OnBaseRed = 0;
+        foreach (PlayerManager playerManager in gameManager.players)
+           {
+            
+            if (playerManager.team==0 && playerManager.onSaveZone) {
+                OnBaseBlue++;
+            }
+            if (playerManager.team==1 && playerManager.onSaveZone)
+            {
+                OnBaseRed++;
+            }
+                
         }
-        else if (OnBaseBlue >= 2)
-        {
-            //Red idle dont attack
-        }
-
-        if (OnBaseRed == 0)
-        {
-            //ally defend
-            // enmy atack
-        }
-        else if (OnBaseRed >= 2)
-        {
-            //Blue idle dont attack
-        }
-
         foreach (PlayerManager playerManager in gameManager.players)
         {
-            //check player Time
-           if(!playerManager.onSaveZone && !playerManager.onCatch) { 
-                if(playerManager.playerTimer < 3f)
+            if (!playerManager.botDummy.onAvoidingPlayer)
+            {
+                if (OnBaseBlue == 0)
                 {
-                    //player new
-                    //beware!!
-                }else if(playerManager.playerTimer < 10f)
-                {
-                    //old player
-                    // get that On target
+                    if (redTeam.idPlayerOnAttackBase == playerManager.idPlayer && playerManager.team == 1)
+                    {
+                        StateAI(playerManager, BotState.AttackBase, playerManager.team, GetTargetPos(2, playerManager));
+                    }
+                    //ally defend
+                    //enmy atack
                 }
-            
+                else if (OnBaseBlue >= 2)
+                {
+                    // attack blue base said red
+                    if (redTeam.idPlayerOnAttackBase == playerManager.idPlayer && playerManager.team == 1)
+                    {
+                        StateAI(playerManager, BotState.AttackBase, playerManager.team, playerManager.transform);
+                    }
+                }
+
+                if (OnBaseRed == 0)
+                {
+                    if (blueTeam.idPlayerOnAttackBase == playerManager.idPlayer && playerManager.team == 0)
+                    {
+                        StateAI(playerManager, BotState.AttackBase, playerManager.team, GetTargetPos(2, playerManager));
+                    }
+                }
+                else if (OnBaseRed >= 2)
+                {
+                    if (blueTeam.idPlayerOnAttackBase == playerManager.idPlayer && playerManager.team == 0)
+                    {
+                        StateAI(playerManager, BotState.AttackBase, 0, playerManager.transform);
+                    }
+                }
             }
+                
 
+                //check player Time attack Player --> wanna change to raycast?
+                /*
+                if (!playerManager.onSaveZone && !playerManager.onCatch)
+                {
+                    if (playerManager.playerTimer < 3f)
+                    {
+
+                        //player new
+                        //beware!!
+                    }
+                    else if (playerManager.playerTimer < 10f)
+                    {
+                        //old player
+                        // get that On target
+                    }
+
+                }
+                */
             
-
+            
 
         }
 
   
     }
 
-    private void getTargetPos(int who,int idTarget)
+
+    private Transform GetTargetPos(int who, PlayerManager players)
     {
         /* 1. Enemy Base
          2. Ally Base
@@ -116,12 +159,12 @@ public class BotCom : MonoBehaviour
             if (playerController.checkTeamPlayer() == 0)
             {
                 GameObject targetObject = GameObject.Find("CastleRed");
-                target = targetObject.transform;
+                return targetObject.transform;
             }
             else
             {
                 GameObject targetObject = GameObject.Find("CastleBlue");
-                target = targetObject.transform;
+                return targetObject.transform;
 
             }
 
@@ -129,15 +172,15 @@ public class BotCom : MonoBehaviour
         }
         else if (who == 2)
         {
-            if (playerController.checkTeamPlayer() == 1)
+            if (players.team == 1)
             {
                 GameObject targetObject = GameObject.Find("CastleRed");
-                target = targetObject.transform;
+                return targetObject.transform;
             }
-            else
+            else if(players.team == 0)
             {
                 GameObject targetObject = GameObject.Find("CastleBlue");
-                target = targetObject.transform;
+                return targetObject.transform;
             }
 
         } else if (who == 3)
@@ -148,6 +191,11 @@ public class BotCom : MonoBehaviour
         {
             //find pos self with idTarget trasnfrom.position
         }
+        return transform;
+    }
 
+    public void OnRealeaseFromArrest()
+    {
+        // switch StateMent -> run to defend base
     }
 }
