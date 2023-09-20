@@ -189,7 +189,7 @@
                 {
                     "name": "up",
                     "id": "c7d6dae7-1ae9-4919-a276-4a240b121621",
-                    "path": "<Keyboard>/o",
+                    "path": "<Keyboard>/upArrow",
                     "interactions": "",
                     "processors": "",
                     "groups": "keyboard1",
@@ -200,7 +200,7 @@
                 {
                     "name": "down",
                     "id": "1d57d6b8-c0e3-4c88-8758-8bfbb0a33538",
-                    "path": "<Keyboard>/l",
+                    "path": "<Keyboard>/downArrow",
                     "interactions": "",
                     "processors": "",
                     "groups": "keyboard1",
@@ -211,7 +211,7 @@
                 {
                     "name": "left",
                     "id": "8d36a9a6-958e-4e3e-a5b6-74cbd1a989fd",
-                    "path": "<Keyboard>/k",
+                    "path": "<Keyboard>/leftArrow",
                     "interactions": "",
                     "processors": "",
                     "groups": "keyboard1",
@@ -222,7 +222,7 @@
                 {
                     "name": "right",
                     "id": "a06a10ce-c93e-4371-85c9-c8ef03a9d059",
-                    "path": "<Keyboard>/semicolon",
+                    "path": "<Keyboard>/rightArrow",
                     "interactions": "",
                     "processors": "",
                     "groups": "keyboard1",
@@ -233,7 +233,7 @@
                 {
                     "name": "",
                     "id": "356f213b-a58f-4385-8563-35894cbde095",
-                    "path": "<Keyboard>/enter",
+                    "path": "<Keyboard>/rightCtrl",
                     "interactions": "",
                     "processors": "",
                     "groups": "keyboard1",
@@ -244,7 +244,7 @@
                 {
                     "name": "",
                     "id": "2443e4d0-f5d3-450d-b44c-6bd56c2a284b",
-                    "path": "<Keyboard>/p",
+                    "path": "<Keyboard>/rightAlt",
                     "interactions": "",
                     "processors": "",
                     "groups": "keyboard1",
@@ -255,7 +255,7 @@
                 {
                     "name": "",
                     "id": "93e2860b-89f4-4500-8d9b-7a4450a6baa0",
-                    "path": "<Keyboard>/j",
+                    "path": "<Keyboard>/space",
                     "interactions": "",
                     "processors": "",
                     "groups": "keyboard1",

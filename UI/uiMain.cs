@@ -7,6 +7,7 @@ using System;
 
 public class uiMain : MonoBehaviour
 {
+
     private void OnEnable()
     {
         VisualElement root = GetComponent<UIDocument>().rootVisualElement;
@@ -17,6 +18,8 @@ public class uiMain : MonoBehaviour
         Button bcredit = root.Q<Button>("ButtonCredit");
         Button bExit = root.Q<Button>("ButtonExit");
 
+
+        
         bPlay.clicked += () => {
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex+1);
         };

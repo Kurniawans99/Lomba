@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,7 +6,13 @@ using static UnityEditor.Experimental.GraphView.GraphView;
 
 public class GameManager : MonoBehaviour
 {
-    private int Round = 1;
+    public static event EventHandler OnStageClear; 
+    public static event EventHandler<OnPointUpdateEventArgs> OnPointUpdate;
+    public class OnPointUpdateEventArgs
+    {
+       public int point;
+    }
+    private int Round = 0;
     public List<PlayerManager> players = new List<PlayerManager>();
     public List<SpawnPoint> spawnPoints = new List<SpawnPoint>();
     private int[] teamPoints;
@@ -16,6 +23,7 @@ public class GameManager : MonoBehaviour
     public int currentIdA = 1;
     public int currentIdB = 1;
 
+    public uiPoint uipoint;
 
 
 
@@ -34,6 +42,7 @@ public class GameManager : MonoBehaviour
         teamPoints[0] = 0;
         teamPoints[1] = 0;
 
+        uipoint = FindObjectOfType<uiPoint>();
 
 
 
@@ -107,13 +116,25 @@ public class GameManager : MonoBehaviour
     private void IncrementTeamPoints(int team)
     {
         
-        teamPoints[team]++;
-        //UI Win 
+        
+        OnPointUpdate?.Invoke(this, new OnPointUpdateEventArgs
+        {
+            point = team
+        }) ;
+        //iuupdate()
         Debug.Log(teamPoints[team]);
     }
 
     private void StartNewRound()
     {
+        UpdatePointsDisplay();
+        arrestedPlayersTeam[0] = 0;
+        arrestedPlayersTeam[1] = 0;
+
+        currentIdA = 0;
+        currentIdB = 0;
+
+        
         // Reset player positions, timers, or any other relevant game state
         respawn();
         Round++;
@@ -127,7 +148,10 @@ public class GameManager : MonoBehaviour
 
     void UpdatePointsDisplay()
     {
-       // pointsDisplay.text = "Team 1: " + teamPoints[0] + " | Team 2: " + teamPoints[1];
+        // pointsDisplay.text = "Team 1: " + teamPoints[0] + " | Team 2: " + teamPoints[1];
+        // updateUITotal()
+        //Round,  teamPoints[0] (blue),  teamPoints[1] (red tearm)
+        OnStageClear?.Invoke(this, EventArgs.Empty);
     }
 
     private void respawn()
@@ -137,11 +161,12 @@ public class GameManager : MonoBehaviour
             playerManager.transform.position = playerManager.intialSpawnPos;
             playerManager.onCatch = false;
             playerManager.gameStarted = true;
-            // Other logic for respawning the player
+            playerManager.botDummy.readyFight = false;
+            playerManager.botDummy.currentState= BotState.BackToBase;
+            playerManager.botDummy.agent.speed = 15f;
 
         }
-        arrestedPlayersTeam[0] = 0;
-        arrestedPlayersTeam[1] = 0;
+       
         loadRound = false;
     }
     public void GamePause() { }

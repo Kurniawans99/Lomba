@@ -24,7 +24,7 @@ public class BotDummy : MonoBehaviour
 {
     private float timeDeadLine;
     public BotState currentState;
-    private NavMeshAgent agent;
+    public NavMeshAgent agent;
     private Animator animator;
     private PlayerController playerController;
     private PlayerManager playerManager;
@@ -37,7 +37,7 @@ public class BotDummy : MonoBehaviour
     private float distance;
 
     public Transform target;
-    private bool readyFight;
+    public bool readyFight;
 
     private float transitionDelay = 2f; // Adjust this value to set the delay time
     private float transitionTimer = 0f; // Timer to keep track of the delay

@@ -1117,8 +1117,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentState: 0
+  agent: {fileID: 0}
   onAvoidingPlayer: 0
   target: {fileID: 0}
+  readyFight: 0
   pathUpdateDelay: 0.2
 --- !u!1 &483045239 stripped
 GameObject:
@@ -1160,8 +1162,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentState: 0
+  agent: {fileID: 0}
   onAvoidingPlayer: 0
   target: {fileID: 1359905193}
+  readyFight: 0
   pathUpdateDelay: 0.2
 --- !u!1 &554941712
 GameObject:
@@ -2111,8 +2115,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentState: 0
+  agent: {fileID: 0}
   onAvoidingPlayer: 0
   target: {fileID: 0}
+  readyFight: 0
   pathUpdateDelay: 0.2
 --- !u!195 &1298644943
 NavMeshAgent:
@@ -2192,8 +2198,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentState: 0
+  agent: {fileID: 0}
   onAvoidingPlayer: 0
   target: {fileID: 0}
+  readyFight: 0
   pathUpdateDelay: 0.2
 --- !u!1 &1368884120
 GameObject:
@@ -2205,6 +2213,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1368884122}
   - component: {fileID: 1368884121}
+  - component: {fileID: 1368884123}
   m_Layer: 5
   m_Name: UIDocument
   m_TagString: Untagged
@@ -2243,6 +2252,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1368884123
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1368884120}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a4244c392a12d344e81dff57de2bd554, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1501425581
 GameObject:
   m_ObjectHideFlags: 0
@@ -2402,8 +2423,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentState: 0
+  agent: {fileID: 0}
   onAvoidingPlayer: 0
   target: {fileID: 0}
+  readyFight: 0
   pathUpdateDelay: 0.2
 --- !u!4 &1613503655 stripped
 Transform:
@@ -2450,8 +2473,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentState: 0
+  agent: {fileID: 0}
   onAvoidingPlayer: 0
   target: {fileID: 0}
+  readyFight: 0
   pathUpdateDelay: 0.2
 --- !u!1 &1784455459
 GameObject:
@@ -2672,8 +2697,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentState: 0
+  agent: {fileID: 0}
   onAvoidingPlayer: 0
   target: {fileID: 0}
+  readyFight: 0
   pathUpdateDelay: 0.2
 --- !u!195 &1892460703
 NavMeshAgent:
@@ -2777,6 +2804,7 @@ MonoBehaviour:
   - {fileID: 1945418969}
   currentIdA: 1
   currentIdB: 1
+  uipoint: {fileID: 0}
 --- !u!4 &1939895283
 Transform:
   m_ObjectHideFlags: 0
@@ -2982,8 +3010,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentState: 1
+  agent: {fileID: 0}
   onAvoidingPlayer: 0
   target: {fileID: 0}
+  readyFight: 0
   pathUpdateDelay: 0.2
 --- !u!1 &2026883257
 GameObject:

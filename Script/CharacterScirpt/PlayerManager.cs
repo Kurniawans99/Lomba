@@ -111,12 +111,7 @@ public class PlayerManager : MonoBehaviour
 
         public void SwitchControl()
     {
-        
-        
-        
         cameraQ.SwitchTarget(transform.position, transform);
-        
-       
         playerController.handrise = false;
         playerController.isControlled = true;
     }

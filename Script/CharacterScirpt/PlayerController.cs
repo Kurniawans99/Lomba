@@ -47,11 +47,6 @@ public class PlayerController : MonoBehaviour
         sphereCollider = GetComponentInChildren<SphereCollider>();
         gameManager = FindObjectOfType<GameManager>();
 
-
-
-
-
-
     }
 
 
