@@ -46,13 +46,22 @@ public class uiPoint : MonoBehaviour
         GameManager.OnPointUpdate += GameManager_OnPointUpdate;
         GameManager.OnPause += GameManager_OnPause;
         GameManager.OnUnPause += GameManager_OnUnPause;
-
+        GameManager.OnWin += GameManager_OnWin;
+        titleWin.text = "PAUSED";
         bResume.clicked += () =>
         {
-            Time.timeScale = 1;
-            popwin.style.display = DisplayStyle.None;
+            GameManager.Instance.GamePaused();
 
         };
+    }
+
+    private void GameManager_OnWin(object sender, GameManager.OnWinEventArgs e)
+    {
+        titleWin.text = e.teamWin;
+        bResume.style.display = DisplayStyle.None;
+
+        GameManager.Instance.GamePaused();
+
     }
 
     private void GameManager_OnUnPause(object sender, EventArgs e)

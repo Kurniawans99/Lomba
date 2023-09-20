@@ -6,6 +6,12 @@ using static UnityEditor.Experimental.GraphView.GraphView;
 
 public class GameManager : MonoBehaviour
 {
+    public static GameManager Instance { get; private set; }
+    public static event EventHandler<OnWinEventArgs> OnWin;
+    public class OnWinEventArgs : EventArgs
+    {
+        public string teamWin;
+    }
     public static event EventHandler OnStageClear; 
     public static event EventHandler OnPause; 
     public static event EventHandler OnUnPause; 
@@ -28,8 +34,12 @@ public class GameManager : MonoBehaviour
 
     public uiPoint uipoint;
     private bool isPaused = false;
+    private bool gameDone = false;
 
-
+    private void Awake()
+    {
+        Instance = this;
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -53,6 +63,17 @@ public class GameManager : MonoBehaviour
 
     private void GameInput1_OnPause(object sender, EventArgs e)
     {
+        GamePaused();
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+
+        
+    }
+    public void GamePaused()
+    {
         isPaused = !isPaused;
         if (isPaused)
         {
@@ -66,14 +87,6 @@ public class GameManager : MonoBehaviour
 
         }
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-
-        
-    }
-
     public void Catching(int teamNumber, bool onCatch)
     {
         if (onCatch)
@@ -104,6 +117,7 @@ public class GameManager : MonoBehaviour
         if (!loadRound)
         {
             loadRound = true;
+            teamPoints[wutTeam]++;
             IncrementTeamPoints(wutTeam);
             Debug.Log(Round);
             if(Round >= 3 && teamPoints[0] != teamPoints[1])
@@ -111,22 +125,38 @@ public class GameManager : MonoBehaviour
                 //UI Game End -> back home -> playagain
                 if(teamPoints[0] > teamPoints[1])
                 {
-                    Debug.Log("BLUE"); //wins
-                }else
-                {
-                    Debug.Log("Red");//wins
+                    gameDone = true;
+                    OnWin?.Invoke(this, new OnWinEventArgs
+                    {
+                        teamWin = "Blue Win"
+                    });
                 }
-            }
-            
+                else 
+                {
+                    gameDone = true;
 
-            foreach (PlayerManager player in players)
-            {
-                player.gameStarted = false;
-                player.TouchingCastleAlly();
-
+                    OnWin?.Invoke(this, new OnWinEventArgs
+                    {
+                        teamWin = "Red Win"
+                    });
+                }
+               
             }
-            
-            StartNewRound();
+                    foreach (PlayerManager player in players)
+                    {
+                        player.gameStarted = false;
+                        player.TouchingCastleAlly();
+
+                    }
+
+
+                if(gameDone == false)
+                {
+
+                  StartNewRound();
+                }
+
+
         }
 
 
@@ -188,7 +218,6 @@ public class GameManager : MonoBehaviour
        
         loadRound = false;
     }
-    public void GamePause() { }
     public void GameResume() { }
     public void GameBackHome() { }
 
