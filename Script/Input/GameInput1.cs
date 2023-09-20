@@ -9,6 +9,7 @@ public class GameInput1 : MonoBehaviour
     
     public event EventHandler<OnRunEventArgs> OnRun;
     public event EventHandler<OnTouchEventArgs> OnTouch;
+    public event EventHandler OnPause;
     public event EventHandler OnSwitch;
     public class OnRunEventArgs : EventArgs
     {
@@ -39,7 +40,14 @@ public class GameInput1 : MonoBehaviour
         playerInputActions.Player1.Touch.performed += PlayerTouch_Performed;
         playerInputActions.Player1.Touch.canceled += PlayerTouch_Canceled;
         playerInputActions.Player1.Switch.started += PlayerSwitch_Started;
+        playerInputActions.Player1.Pause.performed += PlayerPause_Performed;
     }
+
+    private void PlayerPause_Performed(InputAction.CallbackContext obj)
+    {
+        OnPause?.Invoke(this, EventArgs.Empty);
+    }
+
     private void PlayerSwitch_Started(InputAction.CallbackContext context)
     {
         OnSwitch?.Invoke(this, EventArgs.Empty);

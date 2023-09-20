@@ -7,7 +7,10 @@ using static UnityEditor.Experimental.GraphView.GraphView;
 public class GameManager : MonoBehaviour
 {
     public static event EventHandler OnStageClear; 
+    public static event EventHandler OnPause; 
+    public static event EventHandler OnUnPause; 
     public static event EventHandler<OnPointUpdateEventArgs> OnPointUpdate;
+    [SerializeField] private GameInput1 gameInput1;
     public class OnPointUpdateEventArgs
     {
        public int point;
@@ -24,7 +27,7 @@ public class GameManager : MonoBehaviour
     public int currentIdB = 1;
 
     public uiPoint uipoint;
-
+    private bool isPaused = false;
 
 
 
@@ -43,9 +46,25 @@ public class GameManager : MonoBehaviour
         teamPoints[1] = 0;
 
         uipoint = FindObjectOfType<uiPoint>();
+        gameInput1.OnPause += GameInput1_OnPause;
 
 
+    }
 
+    private void GameInput1_OnPause(object sender, EventArgs e)
+    {
+        isPaused = !isPaused;
+        if (isPaused)
+        {
+            Time.timeScale = 0;
+            OnPause?.Invoke(this, EventArgs.Empty);
+        }
+        else
+        {
+            Time.timeScale = 1;
+            OnUnPause?.Invoke(this, EventArgs.Empty);
+
+        }
     }
 
     // Update is called once per frame
