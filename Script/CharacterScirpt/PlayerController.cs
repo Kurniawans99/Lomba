@@ -7,6 +7,7 @@ using UnityEngine;
 using UnityEngine.Animations.Rigging;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
+using static UnityEditor.Experimental.GraphView.GraphView;
 
 public class PlayerController : MonoBehaviour
 {
@@ -31,13 +32,16 @@ public class PlayerController : MonoBehaviour
 
         gameInput.OnRun += GameInput_OnRun;
         gameInput.OnTouch += GameInput_OnTouch;
+      gameInput.OnSwitch += GameInput_OnSwitch;
 
         gameInput2.OnRun += GameInput_OnRun2;
         gameInput2.OnTouch += GameInput_OnTouch2;
-      
-    
+       gameInput2.OnSwitch += GameInput_OnSwitch2;
 
-       
+
+
+
+
         playerManager = GetComponent<PlayerManager>();
         speed = defaultSpeed;
         sphereCollider = GetComponentInChildren<SphereCollider>();
@@ -69,20 +73,77 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    /*    private IEnumerator Dash()
+    private void GameInput_OnSwitch(object sender,EventArgs e)
+    {
+        if(isControlled && playerManager.team == 0)
         {
-            float originalSpeed = speed;
-            speed *= speedDash;
-            isDashing = true;
-            canDash = false;
-            yield return new WaitForSeconds(dashTime);
-            speed = originalSpeed;
-            isDashing = false;
-            yield return new WaitForSeconds(cooldownDash);
-            canDash = true;
+            if (gameManager.currentIdA >= 4) 
+            {
+                gameManager.currentIdA = 0;
+
+            }
+            if (gameManager.currentIdA < 4)
+            {
+
+                gameManager.currentIdA += 1;
+
+            }
+
+            
+
+            foreach (PlayerManager player in gameManager.players)
+            {
+                if (playerManager.team == player.team && player.idPlayer == gameManager.currentIdA)
+                {
+                    isControlled = false;
+                    player.SwitchControl();
+                    playerManager.botDummy.currentState = BotState.Idle;
+                    break;
+                }
+            }
 
 
-        }*/
+        }
+
+
+
+
+
+    }
+    private void GameInput_OnSwitch2(object sender, EventArgs e)
+    {
+        if (isControlled && playerManager.team == 1)
+        {
+            if (gameManager.currentIdB >= 4)
+            {
+                gameManager.currentIdB = 0;
+
+            }
+            if (gameManager.currentIdB < 4)
+            {
+
+                gameManager.currentIdB += 1;
+
+            }
+
+
+
+            foreach (PlayerManager player in gameManager.players)
+            {
+                if (playerManager.team == player.team && player.idPlayer == gameManager.currentIdB)
+                {
+                    isControlled = false;
+                    player.SwitchControl();
+                    playerManager.botDummy.currentState = BotState.Idle;
+
+                    break;
+                }
+            }
+
+
+        }
+
+    }
 
     private void GameInput_OnRun(object sender, GameInput1.OnRunEventArgs e)
     {

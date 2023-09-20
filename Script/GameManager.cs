@@ -13,6 +13,9 @@ public class GameManager : MonoBehaviour
     private int totalPlayerTeam = 4;
     public Transform[] points;
 
+    public int currentIdA = 1;
+    public int currentIdB = 1;
+
 
 
 

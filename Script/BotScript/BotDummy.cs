@@ -77,6 +77,7 @@ public class BotDummy : MonoBehaviour
         //check if theres a people with high team near from here
         if (!playerController.isControlled && !playerManager.onCatch)
         {
+            agent.enabled = true;
             switch (currentState)
             {
                 case BotState.Idle:
@@ -143,6 +144,12 @@ public class BotDummy : MonoBehaviour
         else if (!playerController.isControlled && playerManager.onCatch)
         {
             idle();
+        }else if (playerController.isControlled && !playerManager.onCatch)
+        {
+            agent.speed = 0f;
+            agent.isStopped = true;
+            target = null;
+            readyFight=false;
         }
 
 
@@ -188,26 +195,34 @@ public class BotDummy : MonoBehaviour
 
     private void ChasingPlayer()
     {
-      //  if (!playerManager.onSaveZone) { }
-        agent.SetDestination(target.position);
-        animator.SetFloat("Speed", agent.desiredVelocity.sqrMagnitude);
-        agent.isStopped = false;
-
-        if (agent.remainingDistance <= 5)
+        //  if (!playerManager.onSaveZone) { }
+        if (readyFight)
         {
-            simulateTouch();
+            agent.SetDestination(target.position);
+            animator.SetFloat("Speed", agent.desiredVelocity.sqrMagnitude);
+            agent.isStopped = false;
 
-            if (otherPlayerWare.gotPlayer)
+            if (agent.remainingDistance <= 5)
             {
-                currentState = BotState.Idle;
-                otherPlayerWare.gotPlayer = false;
+                simulateTouch();
 
+                if (otherPlayerWare.gotPlayer)
+                {
+                    currentState = BotState.Idle;
+                    otherPlayerWare.gotPlayer = false;
+
+                }
+            }
+            if (!playerManager.onSaveZone && distance < 20)
+            {
+                currentState = BotState.BackToBase;
             }
         }
-        if (!playerManager.onSaveZone && distance < 20)
+        else
         {
-            currentState = BotState.BackToBase;
+            currentState= BotState.Idle;
         }
+        
     }
 
     private void walkRandom()

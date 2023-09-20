@@ -9,6 +9,7 @@ public class GameInput2 : MonoBehaviour
     
     public event EventHandler<OnRunEventArgs> OnRun;
     public event EventHandler<OnTouchEventArgs> OnTouch;
+    public event EventHandler OnSwitch;
     public class OnRunEventArgs : EventArgs
     {
         public bool isRunning;
@@ -37,8 +38,12 @@ public class GameInput2 : MonoBehaviour
         playerInputActions.Player2.Run.canceled += PlayerRun_Canceled;
         playerInputActions.Player2.Touch.performed += PlayerTouch_Performed;
         playerInputActions.Player2.Touch.canceled += PlayerTouch_Canceled;
+        playerInputActions.Player2.Switch.started += PlayerSwitch_Started;
     }
-
+    private void PlayerSwitch_Started(InputAction.CallbackContext context)
+    {
+        OnSwitch?.Invoke(this, EventArgs.Empty);
+    }
     private void PlayerTouch_Performed(InputAction.CallbackContext context)
     {
         OnTouch?.Invoke(this, new OnTouchEventArgs

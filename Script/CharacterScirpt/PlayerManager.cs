@@ -19,7 +19,7 @@ public class PlayerManager : MonoBehaviour
     private GameManager gameManager;
     private SpawnPoint spawnPoint;
     public BotDummy botDummy;
-
+    private FollowCameraScript cameraQ;
     public bool gotPlayer;
 
     public GameObject ball;
@@ -32,6 +32,14 @@ public class PlayerManager : MonoBehaviour
         SpawnPoint spawnPoint = FindObjectOfType<SpawnPoint>();
         intialSpawnPos = transform.position;
 
+        foreach (FollowCameraScript cameraObject in FindObjectsOfType<FollowCameraScript>())
+        {
+            if (cameraObject.CameraTeam == team)
+            {
+                cameraQ = cameraObject; // Found the desired camera
+                break; // Exit the loop since we found it
+            }
+        }
 
 
     }
@@ -101,19 +109,16 @@ public class PlayerManager : MonoBehaviour
 
     /* EVENT PLAYER? SHOULD I MOVE FROM HERE */
 
-        public void SwitchControl(int newPlayerID)
+        public void SwitchControl()
     {
-        /*        PlayerManager newPlayer = GameManager.GetPlayerByID(newPlayerID);
-
-                if (newPlayer != null && newPlayer.team == team && newPlayer.onControl)
-                {
-                    newPlayer.onControl = false;
-                    onControl = true;
-                    playerController.enabled = true;
-                    newPlayer.playerController.enabled = false;
-                }*/
-
-        // Logic for switching control between players on the same team
+        
+        
+        
+        cameraQ.SwitchTarget(transform.position, transform);
+        
+       
+        playerController.handrise = false;
+        playerController.isControlled = true;
     }
     public void ArrestPlayer()
     {
