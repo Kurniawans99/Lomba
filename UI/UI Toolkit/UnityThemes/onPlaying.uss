@@ -1,0 +1,25 @@
+.Text {
+    justify-content: center;
+    opacity: 1;
+    -unity-font: url('project://database/Assets/UI/font/trap/Trap-ExtraBold.otf?fileID=12800000&guid=13b77b0e4e585db45988b70653c3f334&type=3#Trap-ExtraBold');
+    font-size: 25px;
+    position: relative;
+    align-items: center;
+    align-self: center;
+    -unity-font-style: bold;
+    color: rgb(0, 0, 0);
+    -unity-text-align: middle-center;
+    text-overflow: ellipsis;
+    white-space: normal;
+    -unity-background-scale-mode: stretch-to-fill;
+    background-color: rgba(255, 255, 255, 0);
+    background-image: none;
+    padding-top: 10px;
+    padding-right: 10px;
+    padding-bottom: 10px;
+    padding-left: 10px;
+    margin-top: 10px;
+    margin-right: 10px;
+    margin-bottom: 10px;
+    margin-left: 10px;
+}

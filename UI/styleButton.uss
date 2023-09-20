@@ -8,10 +8,10 @@
     border-top-color: rgba(255, 255, 255, 0);
     background-color: rgba(0, 0, 0, 0);
     border-right-color: rgba(255, 255, 255, 0);
-    border-bottom-color: rgb(0, 0, 0);
+    border-bottom-color: rgba(255, 255, 255, 0);
     border-left-color: rgba(255, 255, 255, 0);
     justify-content: flex-start;
-    align-self: flex-start;
+    align-self: center;
     text-shadow: 0 0 0 rgba(0, 0, 0, 0);
     word-spacing: 0;
     letter-spacing: 15px;
@@ -31,6 +31,7 @@
     transition-duration: 0s;
     transition-timing-function: ease;
     transition-delay: 0s;
+    background-image: url('project://database/Assets/fullAssets/UI_Flat_Button_Medium_Press_02a3.png?fileID=2800000&guid=d8f6e46d7c44a244c9a7362718e8e810&type=3#UI_Flat_Button_Medium_Press_02a3');
 }
 
 .button:hover {

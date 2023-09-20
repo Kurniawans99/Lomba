@@ -1,0 +1,26 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <Style src="project://database/Assets/UI/UI%20Toolkit/UnityThemes/onPlaying.uss?fileID=7433441132597879392&amp;guid=0985bd09ef453ed4db3047b9ef6fba1a&amp;type=3#onPlaying" />
+    <ui:VisualElement name="VisualElement" style="flex-grow: 1;">
+        <ui:VisualElement style="flex-grow: 1; position: absolute; top: 0; left: 50%; background-color: rgba(0, 0, 0, 0); background-image: url(&apos;project://database/Assets/fullAssets/UI_Flat_Slot_02_Selected.png?fileID=2800000&amp;guid=543b0cb07ca053d429f714d83f6d1f53&amp;type=3#UI_Flat_Slot_02_Selected&apos;); height: 125%; width: 15px;" />
+        <ui:VisualElement name="container" style="flex-grow: 1; justify-content: flex-start; align-self: flex-start; flex-basis: auto; flex-direction: row; flex-wrap: nowrap; background-color: rgba(0, 0, 0, 0); width: 1368px; align-items: center; height: 68px; position: absolute; overflow: visible;">
+            <ui:VisualElement name="Blue" style="flex-grow: 1; align-items: flex-start; width: auto; background-image: none;">
+                <ui:VisualElement name="VisualElement" style="flex-grow: 1; background-image: url(&apos;project://database/Assets/fullAssets/UI_Flat_Frame_01_Horizontal.png?fileID=2800000&amp;guid=a342e4fe57b5cf3419ab27f74b691650&amp;type=3#UI_Flat_Frame_01_Horizontal&apos;); flex-direction: row;">
+                    <ui:Label tabindex="-1" text="Blue Team: " parse-escape-sequences="true" display-tooltip-when-elided="true" name="Label" class="Text" />
+                    <ui:Label tabindex="-1" text="0" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Label" class="Text" />
+                </ui:VisualElement>
+            </ui:VisualElement>
+            <ui:VisualElement name="Round" style="flex-grow: 1; align-items: center; height: 83px;">
+                <ui:VisualElement name="VisualElement" style="flex-grow: 1; background-image: url(&apos;project://database/Assets/fullAssets/UI_Flat_Button_Large_Release_02a4.png?fileID=2800000&amp;guid=1293077b27dedc04f9c2095a52e3770e&amp;type=3#UI_Flat_Button_Large_Release_02a4&apos;); justify-content: flex-start; flex-direction: row;">
+                    <ui:Label tabindex="-1" text="ROUND" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Label" class="Text" />
+                    <ui:Label tabindex="-1" text="1" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Label" class="Text" />
+                </ui:VisualElement>
+            </ui:VisualElement>
+            <ui:VisualElement name="Red" style="flex-grow: 1; align-items: flex-end; min-width: auto; min-height: auto;">
+                <ui:VisualElement name="VisualElement" style="flex-grow: 1; background-image: url(&apos;project://database/Assets/fullAssets/UI_Flat_Slot_02_Selected.png?fileID=2800000&amp;guid=543b0cb07ca053d429f714d83f6d1f53&amp;type=3#UI_Flat_Slot_02_Selected&apos;); flex-direction: row;">
+                    <ui:Label tabindex="-1" text="Red Team:" parse-escape-sequences="true" display-tooltip-when-elided="true" class="Text" />
+                    <ui:Label tabindex="-1" text="0" parse-escape-sequences="true" display-tooltip-when-elided="true" class="Text" />
+                </ui:VisualElement>
+            </ui:VisualElement>
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>
