@@ -144,6 +144,7 @@ public class PlayerManager : MonoBehaviour
         if (!playerController.isControlled)
         {
             botDummy.currentState = BotState.BackToBase;
+            botDummy.agent.speed = 15f;
         }
     }
 
